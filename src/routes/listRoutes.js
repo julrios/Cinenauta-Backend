@@ -1,8 +1,12 @@
-const express = require('express');
-const { createList } = require('../controllers/listController');
+const { Router } = require("express");
+const { check } = require("express-validator");
+const listController = require('../controllers/listController');
+const checkFields = require("../middlewares/validateFields");
 
-const router = express.Router();
+const router = Router();
 
-router.post('/', createList);
+router.get("/", listController.getLists); // Get Lists
+
+router.get("/:id", listController.getListById); // Get List by id
 
 module.exports = router;
