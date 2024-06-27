@@ -14,7 +14,7 @@ class listService {
 
   async getListById(id) {
     try {
-      return await List.findOne({_id:id});
+      return await List.findOne({_id: id});
     } catch (err) {
       console.error(err);
       throw new Error("Error in getListById Service");

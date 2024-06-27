@@ -50,7 +50,7 @@ class movieService {
       fields.release_date ? movie.release_date = fields.release_date : false;
       fields.poster_path ? movie.poster_path = fields.poster_path : false;
 
-      await movieModel.findOneAndUpdate({_id:id}, movie);
+      await movieModel.findOneAndUpdate({_id: id}, movie);
       return movie;
     } catch (err) {
       console.error(err);
@@ -60,7 +60,7 @@ class movieService {
 
   async deleteMovie(id) {
     try {
-      await movieModel.findOneAndDelete({_id:id});
+      await movieModel.findOneAndDelete({_id: id});
     } catch (err) {
       console.error(err);
       throw new Error("Error in deleteMovie Service");

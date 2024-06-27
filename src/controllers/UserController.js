@@ -48,6 +48,9 @@ const getUserListsById = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    // const username = req.headers['username'];
+    // const email = req.headers['email'];
+    // const password = req.headers['password'];
     const user = await userService.createUser({ username, email, password });
     res.status(201).json(user);
   } catch (err) {
