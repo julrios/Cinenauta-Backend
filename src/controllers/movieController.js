@@ -1,14 +1,25 @@
-const Movie = require('../models/Movie');
+const movieService = require('../services/movieService');
 
 const createMovie = async (req, res) => {
-    try {
-        const { id_movie, title, overview, release_date, poster_path } = req.body;
-        const movie = new Movie({ id_movie, title, overview, release_date, poster_path });
-        await movie.save();
-        res.status(201).json(movie);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+  try {
+    const { id_movie, title, overview, release_date, poster_path } = req.body;
+    const movie = await movieService.createMovie({ id_movie, title, overview, release_date, poster_path });
+    res.status(201).json(movie);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-module.exports = { createMovie };
+const getMovies = async (req, res) => {
+  try {
+    const movies = await movieService.getMovies();
+    res.status(200).json(movies);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = {
+    createMovie,
+    getMovies
+};

@@ -2,19 +2,30 @@ const listService = require('../services/listService');
 
 const createList = async (req, res) => {
   try {
-      const { list_name, description, user } = req.body;
-      const userObj = req.user;
-      const list = await listService.createList(list_name, description, userObj._id);
+      const { list_name, description } = req.body;
+      const userId = req.user._id;
+      const list = await listService.createList({ list_name, description, userId });
       res.status(201).json(list);
   } catch (err) {
       res.status(500).json({ error: err.message });
   }
 };
 
-const deleteListById = async (req, res) => {
+const updateList = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const newData = req.body;
+    const updatedList = await listService.updateList(id, newData);
+    res.status(200).json(updatedList);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const deleteList = async (req, res) => {
   try {
       const { id } = req.params;
-      await listService.deleteListById(id);
+      await listService.deleteList(id);
       res.status(200).json({ message: 'List deleted successfully' });
   } catch (err) {
       res.status(500).json({ error: err.message });
@@ -24,7 +35,7 @@ const deleteListById = async (req, res) => {
 const addMovieToList = async (req, res) => {
   try {
     const { listId, movieData } = req.body;
-    const list = await listService.addMovieToList(listId, movieData);
+    const list = await listService.addMovieToList({ listId, movieData });
     res.status(200).json(list);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -67,7 +78,8 @@ const getLists = async (req, res) => {
 
 module.exports = {
   createList,
-  deleteListById,
+  updateList,
+  deleteList,
   addMovieToList,
   removeMovieFromList,
   getListById,

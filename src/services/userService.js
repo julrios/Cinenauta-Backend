@@ -13,7 +13,7 @@ class userService {
       }
       else {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ username, email, password:hashedPassword });
+        const user = new User({ username, email, password: hashedPassword, lists: [] });
         
         const vistasList = new List({ list_name: 'Vistas', description: 'Tus películas y series vistas.', user: user });
         const favoritasList = new List({ list_name: 'Favoritas', description: 'Tus películas y series favoritas.', user: user });
