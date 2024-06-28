@@ -16,7 +16,7 @@ const loginUser = async (req, res) => {
 
     const token = await userService.loginUser({ email, password });
     if (!token) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
     res.json({ token });
@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
 
 const logoutUser = async (req, res) => {
   try {
-    res.status(200).json({ message: 'Logout successful' });
+    res.status(200).json({ message: 'Cierre de sesión exitoso' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -59,7 +59,7 @@ const getUserById = async (req, res) => {
     const { id } = req.params;
     const user = await userService.getUserById(id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'Usuario no encontrado' });
     }
     res.status(200).json(user);
   } catch (err) {
@@ -77,7 +77,6 @@ const getUserListsById = async (req, res) => {
     }
   };
 
-/*
 const getUsers = async (req, res) => {
   try {
     const users = await userService.getUsers();
@@ -92,14 +91,13 @@ const getUserByEmail = async (req, res) => {
     const { email } = req.params;
     const user = await userService.getUserByEmail(email);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'Usuario no encontrado' });
     }
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-*/
 
 module.exports = {
   createUser,
@@ -109,4 +107,6 @@ module.exports = {
   deleteUser,
   getUserById,
   getUserListsById,
+  getUsers,
+  getUserByEmail,
 };

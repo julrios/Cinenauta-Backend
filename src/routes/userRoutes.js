@@ -11,9 +11,9 @@ const router = Router();
 // Create User
 router.post("/",
   [
-    check("username").not().isEmpty().withMessage("Username is required"),
-    check("email").not().isEmpty().withMessage("Email is required"),
-    check("password").not().isEmpty().withMessage("Password is required"),
+    check("username").not().isEmpty().withMessage("Se requiere username de Usuario"),
+    check("email").not().isEmpty().withMessage("Se requiere email de Usuario"),
+    check("password").not().isEmpty().withMessage("Se requiere contraseña de Usuario"),
     checkFields,
   ],
   userController.createUser
@@ -22,8 +22,8 @@ router.post("/",
 // Login User
 router.post("/login",
   [
-    check("email").not().isEmpty().withMessage("Email is required"),
-    check("password").not().isEmpty().withMessage("Password is required"),
+    check("email").not().isEmpty().withMessage("Se requiere email de Usuario"),
+    check("password").not().isEmpty().withMessage("Se requiere contraseña de Usuario"),
     checkFields,
   ],
   userController.loginUser
@@ -49,9 +49,9 @@ router.get("/:id/lists", jwtValidator, userController.getUserListsById);
 // Rutas no necesarias
 
 // Get Users
-// router.get("/", jwtValidator, userController.getUsers);
+router.get("/", jwtValidator, userController.getUsers);
 
 // Get User by email
-// router.get("/email/:email", jwtValidator, userController.getUserByEmail);
+router.get("/email/:email", jwtValidator, userController.getUserByEmail);
 
 module.exports = router;

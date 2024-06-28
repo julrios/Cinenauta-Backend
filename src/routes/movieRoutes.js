@@ -12,9 +12,9 @@ const router = Router();
 router.post("/",
   [
     jwtValidator,
-    check("id_movie").not().isEmpty().withMessage("Movie TMDB ID is required"),
-    check("title").not().isEmpty().withMessage("Movie title is required"),
-    check("poster_path").not().isEmpty().withMessage("Movie poster path is required"),
+    check("id_movie").not().isEmpty().withMessage("Se requiere el ID de TMDB de la Película"),
+    check("title").not().isEmpty().withMessage("Se requiere el título de la Película"),
+    check("poster_path").not().isEmpty().withMessage("Se requiere la ubicación del poster de la Película"),
     checkFields,
   ],
   movieController.createMovie
