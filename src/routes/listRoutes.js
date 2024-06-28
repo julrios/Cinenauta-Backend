@@ -12,8 +12,8 @@ const router = Router();
 router.post("/",
   [
     jwtValidator,
-    check("list_name").not().isEmpty().withMessage("List name is required"),
-    check("description").not().isEmpty().withMessage("List description is required"),
+    check("list_name").not().isEmpty().withMessage("Se requiere nombre de Lista"),
+    check("description").not().isEmpty().withMessage("Se requiere descripción de Lista"),
     checkFields,
   ],
   listController.createList
@@ -23,8 +23,8 @@ router.post("/",
 router.put("/:id",
     [
       jwtValidator,
-      check('list_name').not().isEmpty().withMessage('List name is required'),
-      check('description').not().isEmpty().withMessage('List description is required'),
+      check('list_name').not().isEmpty().withMessage('Se requiere nombre de Lista'),
+      check('description').not().isEmpty().withMessage('Se requiere descripción de Lista'),
       checkFields,
     ],
     listController.updateList
@@ -37,8 +37,10 @@ router.delete("/:id", jwtValidator, listController.deleteList);
 router.post("/:id/addMovie",
   [
     jwtValidator,
-    check("listId").not().isEmpty().withMessage("List ID is required"),
-    check("movieData").not().isEmpty().withMessage("Movie data is required"),
+    check("listId").not().isEmpty().withMessage("Se requiere ID de Lista"),
+    check("id_movie").not().isEmpty().withMessage("Se requiere ID de Película"),
+    check("title").not().isEmpty().withMessage("Se requiere título de Película"),
+    check("poster_path").not().isEmpty().withMessage("Se requiere ubicación de poster de Película"),
     checkFields,
   ],
   listController.addMovieToList
@@ -48,8 +50,8 @@ router.post("/:id/addMovie",
 router.post("/:id/removeMovie",
   [
     jwtValidator,
-    check("listID").not().isEmpty().withMessage("List ID is required"),
-    check("movieId").not().isEmpty().withMessage("Movie ID is required"),
+    check("listId").not().isEmpty().withMessage("Se requiere ID de Lista"),
+    check("id_movie").not().isEmpty().withMessage("Se requiere ID de Película"),
     checkFields,
   ],
   listController.removeMovieFromList
