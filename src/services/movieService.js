@@ -4,11 +4,20 @@ class movieService {
 
   async createMovie({ movieData }) {
     try {
-      const movie = await Movie.findOne({ id_movie: movieData.id_movie });
+      if (!movieData || !movieData.id_movie) {
+        throw new Error("Invalid movie data");
+      }
+
+      let movie = await Movie.findOne({ id_movie: movieData.id_movie });
       if (!movie) {
-        const movie = new Movie(movieData);
+        movie = new Movie({
+          id_movie: movieData.id_movie,
+          title: movieData.title,
+          overview: movieData.overview,
+          release_date: movieData.release_date,
+          poster_path: movieData.poster_path,
+        });
         await movie.save();
-        return movie;
       }
 
       return movie;
@@ -20,7 +29,7 @@ class movieService {
 
   async getMovies() {
     try {
-      const movies = await movieModel.find();
+      let movies = await movieModel.find();
       return movies;
     } catch (err) {
       console.error(err);
@@ -30,7 +39,7 @@ class movieService {
 
   async getMovieById(id) {
     try {
-      const movie = await movieModel.findOne({_id: id});
+      let movie = await movieModel.findOne({_id: id});
       return movie;
     } catch (err) {
       console.error(err);
@@ -40,7 +49,7 @@ class movieService {
 
   async getMoviesByTitle(title) {
     try {
-      const movie = await movieModel.find({ title: title });
+      let movie = await movieModel.find({ title: title });
       return movie;
     } catch (err) {
       console.error(err);

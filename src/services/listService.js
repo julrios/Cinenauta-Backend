@@ -1,17 +1,18 @@
 const User = require('../models/User');
 const List = require('../models/List');
+const Movie = require('../models/Movie');
 const movieService = require('../services/movieService');
 
 class listService {
 
   async createList({ list_name, description, userId }) {
     try {
-      const user = await User.findOne({ _id: userId });
+      let user = await User.findOne({ _id: userId });
       if (!user) {
         throw new Error('User not found');
       }
 
-      const list = new List({ list_name, description, user, movies: [] });
+      let list = new List({ list_name, description, user, movies: [] });
       await list.save();
 
       user.lists.push(list);
@@ -26,7 +27,7 @@ class listService {
 
   async updateList(id, newData) {
     try {
-      const list = await List.findOne({_id: id});
+      let list = await List.findOne({_id: id});
       if (!list) {
         throw new Error('List not found');
       }
@@ -49,7 +50,7 @@ class listService {
 
   async deleteList(id) {
     try {
-      const list = await List.findOne({_id: id});
+      let list = await List.findOne({_id: id});
       if (!list) {
         throw new Error("List not found");
       }
@@ -58,7 +59,7 @@ class listService {
       }
       await List.findByIdAndDelete(id);
 
-      const user = await User.findById(list.user);
+      let user = await User.findById(list.user);
       user.lists.pull(id);
       await user.save();
 
@@ -71,14 +72,14 @@ class listService {
 
   async addMovieToList({ listId, movieData }) {
     try {
-      const list = await List.findOne({_id: listId});
+      let list = await List.findOne({_id: listId});
       if (!list) {
         throw new Error("List not found");
       }
 
-      const movie = await List.findOne({_id: movieData.listId});
+      let movie = await Movie.findOne({_id: movieData.movieId});
       if (!movie) {
-        movie = await movieService.createMovie(movieData);
+        movie = await movieService.createMovie({ movieData });
       }
 
       if (!list.movies.includes(movie)) {
@@ -95,12 +96,12 @@ class listService {
 
   async removeMovieFromList({ listId, movieId }) {
     try {
-      const list = await List.findOne({_id: listId});
+      let list = await List.findOne({_id: listId});
       if (!list) {
         throw new Error("List not found");
       }
 
-      const movie = await List.findOne({_id: movieId});
+      let movie = await List.findOne({_id: movieId});
       if (!movie) {
         throw new Error("Movie not found");
       }
@@ -109,14 +110,6 @@ class listService {
         list.movies.push(movie._id);
         await list.save();
       }
-
-      /*
-      const movieIndex = list.movies.indexOf(movieId);
-      if (movieIndex > -1) {
-        list.movies.splice(movieIndex, 1);
-        await list.save();
-      }
-      */
 
       list.movies.pull(movieId);
       await list.save();

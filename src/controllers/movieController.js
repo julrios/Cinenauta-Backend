@@ -3,7 +3,8 @@ const movieService = require('../services/movieService');
 const createMovie = async (req, res) => {
   try {
     const { id_movie, title, overview, release_date, poster_path } = req.body;
-    const movie = await movieService.createMovie({ id_movie, title, overview, release_date, poster_path });
+    const movieData = { id_movie, title, overview, release_date, poster_path };
+    const movie = await movieService.createMovie({ movieData });
     res.status(201).json(movie);
   } catch (err) {
     res.status(500).json({ error: err.message });
