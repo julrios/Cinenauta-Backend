@@ -60,5 +60,3 @@ class movieService {
 }
 
 module.exports = new movieService();
-
-const Movie = require('../models/Movie');
