@@ -9,7 +9,7 @@ class listService {
     try {
       let user = await User.findOne({ _id: userId });
       if (!user) {
-        throw new Error('User not found');
+        throw new Error('Usuario no encontrado');
       }
 
       let list = new List({ list_name, description, user, movies: [] });
@@ -21,7 +21,7 @@ class listService {
       return list;
     } catch (err) {
       console.error(err);
-      throw new Error("Error in createList Service");
+      throw new Error("Error en el Servicio createList");
     }
   }
 
@@ -29,7 +29,7 @@ class listService {
     try {
       let list = await List.findOne({_id: id});
       if (!list) {
-        throw new Error('List not found');
+        throw new Error('Lista no encontrada');
       }
 
       if (newData.list_name) {
@@ -44,7 +44,7 @@ class listService {
       return list;
     } catch (err) {
       console.error(err);
-      throw new Error('Error in updateList Service');
+      throw new Error('Error en el Servicio updateList');
     }
   }
 
@@ -52,10 +52,10 @@ class listService {
     try {
       let list = await List.findOne({_id: id});
       if (!list) {
-        throw new Error("List not found");
+        throw new Error("Lista no encontrada");
       }
       if (list.list_name === "Vistas" || list.list_name === "Favoritas" || list.list_name === "Ver Despues") {
-        throw new Error("This list cannot be deleted");
+        throw new Error("Esta lista no puede ser eliminada");
       }
       await List.findByIdAndDelete(id);
 
@@ -66,7 +66,7 @@ class listService {
       return;
     } catch (err) {
       console.error(err);
-      throw new Error("Error in deleteList Service");
+      throw new Error("Error en el Servicio deleteList");
     }
   }
 
@@ -74,7 +74,7 @@ class listService {
     try {
       let list = await List.findOne({_id: listId});
       if (!list) {
-        throw new Error("List not found");
+        throw new Error("Lista no encontrada");
       }
 
       let movie = await Movie.findOne({_id: movieData.movieId});
@@ -90,20 +90,20 @@ class listService {
       return list.populate('movies');
     } catch (err) {
       console.error(err);
-      throw new Error("Error in addMovieToList Service");
+      throw new Error("Error en el Servicio addMovieToList");
     }
   }
 
-  async removeMovieFromList({ listId, movieId }) {
+  async removeMovieFromList({ listId, id_movie }) {
     try {
       let list = await List.findOne({_id: listId});
       if (!list) {
-        throw new Error("List not found");
+        throw new Error("Lista no encontrada");
       }
 
-      let movie = await List.findOne({_id: movieId});
+      let movie = await List.findOne({id_movie: id_movie});
       if (!movie) {
-        throw new Error("Movie not found");
+        throw new Error("Película no encontrada");
       }
 
       if (list.movies.includes(movie)) {
@@ -111,13 +111,13 @@ class listService {
         await list.save();
       }
 
-      list.movies.pull(movieId);
+      list.movies.pull(id_movie);
       await list.save();
 
       return list.populate('movies');
     } catch (err) {
       console.error(err);
-      throw new Error("Error in removeMovieFromList Service");
+      throw new Error("Error en el Servicio removeMovieFromList");
     }
   }
 
@@ -126,11 +126,10 @@ class listService {
       return await List.findOne({_id: id}).populate('movies');
     } catch (err) {
       console.error(err);
-      throw new Error("Error in getListById Service");
+      throw new Error("Error en el Servicio getListById");
     }
   }
 
-  /*
   async updateList(id, fields, list) {
     try {
       fields.list_name ? list.list_name = fields.list_name : false;
@@ -139,7 +138,7 @@ class listService {
       return list;
     } catch (err) {
       console.error(err);
-      throw new Error("Error in updateList Service");
+      throw new Error("Error en el Servicio updateList");
     }
   }
 
@@ -148,10 +147,9 @@ class listService {
       return await List.find({}).populate('movies');
     } catch (err) {
       console.error(err);
-      throw new Error("Error in getLists Service");
+      throw new Error("Error en el Servicio getLists");
     }
   }
-  */
 
 }
 

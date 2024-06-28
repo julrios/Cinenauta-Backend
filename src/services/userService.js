@@ -9,7 +9,7 @@ class userService {
     try {
       let isUserRegistered = await User.findOne({email: email});
       if(isUserRegistered){
-        throw new Error("User already registered");
+        throw new Error("El usuario ya está registrado");
       }
       else {
         let hashedPassword = await bcrypt.hash(password, 10);
@@ -30,7 +30,7 @@ class userService {
       }
     } catch (err) {
       console.error(err);
-      throw new Error("Error in createUser Service");
+      throw new Error("Error en el Servicio createUser");
     }
   }
 
@@ -52,7 +52,7 @@ class userService {
       return token;
     } catch (err) {
       console.error(err);
-      throw new Error("Error in login Service");
+      throw new Error("Error en el Servicio loginUser");
     }
   }
 
@@ -60,12 +60,12 @@ class userService {
     try {
       let updatedUser = await User.findByIdAndUpdate(id, newData, { new: true });
       if (!updatedUser) {
-        throw new Error('User not found');
+        throw new Error('Usuario no encontrado');
       }
       return updatedUser;
     } catch (err) {
       console.error(err);
-      throw new Error('Error in updateUser Service');
+      throw new Error('Error en el Servicio updateUser');
     }
   }
 
@@ -73,12 +73,12 @@ class userService {
     try {
       let deletedUser = await User.findByIdAndDelete(id);
       if (!deletedUser) {
-        throw new Error('User not found');
+        throw new Error('Usuario no encontrado');
       }
       return deletedUser;
     } catch (err) {
       console.error(err);
-      throw new Error('Error in deleteUser Service');
+      throw new Error('Error en el Servicio deleteUser');
     }
   }
 
@@ -87,7 +87,7 @@ class userService {
       return await User.findOne({_id: id});
     } catch (err) {
       console.error(err);
-      throw new Error("Error in getUserById Service");
+      throw new Error("Error en el Servicio getUserById");
     }
   }
 
@@ -95,22 +95,21 @@ class userService {
     try {
       let user = await User.findOne({_id: id}).populate('lists');
       if (!user) {
-        throw new Error('User not found');
+        throw new Error('Usuario no encontrado');
       }
       return user.lists;
     } catch (err) {
       console.error(err);
-      throw new Error('Error in getUserListsById Service');
+      throw new Error('Error en el Servicio getUserListsById');
     }
   }
 
-  /*
   async getUsers() {
     try {
       return await User.find({});
     } catch (err) {
       console.error(err);
-      throw new Error("Error in getUsers Service");
+      throw new Error("Error en el Servicio getUsers");
     }
   }
 
@@ -119,10 +118,9 @@ class userService {
       return await User.findOne({email: email});
     } catch (err) {
       console.error(err);
-      throw new Error("Error in getUserById Service");
+      throw new Error("Error en el Servicio getUserById");
     }
   }
-  */
   
 }
 

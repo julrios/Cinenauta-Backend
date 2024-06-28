@@ -26,7 +26,7 @@ const deleteList = async (req, res) => {
   try {
       const { id } = req.params;
       await listService.deleteList(id);
-      res.status(200).json({ message: 'List deleted successfully' });
+      res.status(200).json({ message: 'Lista eliminada exitosamente' });
   } catch (err) {
       res.status(500).json({ error: err.message });
   }
@@ -45,8 +45,8 @@ const addMovieToList = async (req, res) => {
 
 const removeMovieFromList = async (req, res) => {
   try {
-    const { listId, movieId } = req.body;
-    const list = await listService.removeMovieFromList({ listId, movieId });
+    const { listId, id_movie } = req.body;
+    const list = await listService.removeMovieFromList({ listId, id_movie });
     res.status(200).json(list);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -58,7 +58,7 @@ const getListById = async (req, res) => {
     const { id } = req.params;
     const list = await listService.getListById(id);
     if (!list) {
-      return res.status(404).json({ message: 'List not found' });
+      return res.status(404).json({ message: 'Lista no encontrada' });
     }
     res.status(200).json(list);
   } catch (err) {
@@ -66,7 +66,6 @@ const getListById = async (req, res) => {
   }
 };
 
-/*
 const getLists = async (req, res) => {
   try {
     const lists = await listService.getLists();
@@ -75,7 +74,6 @@ const getLists = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-*/
 
 module.exports = {
   createList,
@@ -84,4 +82,5 @@ module.exports = {
   addMovieToList,
   removeMovieFromList,
   getListById,
+  getLists,
 };

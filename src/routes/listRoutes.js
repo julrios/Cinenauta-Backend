@@ -63,6 +63,6 @@ router.get("/:id", jwtValidator, listController.getListById);
 // Rutas no necesarias
 
 // Get Lists
-// router.get("/", listController.getLists);
+router.get("/", listController.getLists);
 
 module.exports = router;

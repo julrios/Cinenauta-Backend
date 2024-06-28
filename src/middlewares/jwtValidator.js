@@ -5,7 +5,7 @@ const jwtValidator = (req, res, next) => {
   const authHeader = req.header('Authorization');
 
   if (!authHeader) {
-    return res.status(401).json({ message: 'No token, authorization denied' });
+    return res.status(401).json({ message: 'No hay token, autorización denegada' });
   }
 
   const token = authHeader.replace('Bearer ', '');
@@ -15,27 +15,8 @@ const jwtValidator = (req, res, next) => {
     req.user = decoded.user;
     next();
   } catch (err) {
-    res.status(401).json({ message: 'Token is not valid' });
+    res.status(401).json({ message: 'El Token no es válido' });
   }
 };
 
 module.exports = jwtValidator;
-
-/*
-const validateJwt = async (req, res, next) => {
-  try {
-    const jwtValidate = jwt.verify(req.headers.jwt, process.env.PRIVATE_KEY);
-    if (jwtValidate) {
-      next();
-    } else {
-      return res.status(401).json({
-        message: "Unauthorized",
-      });
-    }
-  } catch (err) {
-    return res.status(401).json({
-      message: "Unauthorized",
-    });
-  }
-};
-*/

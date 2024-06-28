@@ -5,7 +5,7 @@ class movieService {
   async createMovie({ movieData }) {
     try {
       if (!movieData || !movieData.id_movie) {
-        throw new Error("Invalid movie data");
+        throw new Error("Datos de la Película inválidos");
       }
 
       let movie = await Movie.findOne({ id_movie: movieData.id_movie });
@@ -23,17 +23,17 @@ class movieService {
       return movie;
     } catch (err) {
       console.error(err);
-      throw new Error("Error in createMovie Service");
+      throw new Error("Error en el Servicio createMovie");
     }
   }
 
   async getMovies() {
     try {
-      let movies = await movieModel.find();
+      let movies = await movieModel.find({});
       return movies;
     } catch (err) {
       console.error(err);
-      throw new Error("Error in getMovies Service");
+      throw new Error("Error en el Servicio getMovies");
     }
   }
 
@@ -43,7 +43,7 @@ class movieService {
       return movie;
     } catch (err) {
       console.error(err);
-      throw new Error("Error in getMovieById Service");
+      throw new Error("Error en el Servicio getMovieById");
     }
   }
 
@@ -53,16 +53,7 @@ class movieService {
       return movie;
     } catch (err) {
       console.error(err);
-      throw new Error("Error in getMoviesByCategory Service");
-    }
-  }
-
-  async deleteMovie(id) {
-    try {
-      await movieModel.findOneAndDelete({_id: id});
-    } catch (err) {
-      console.error(err);
-      throw new Error("Error in deleteMovie Service");
+      throw new Error("Error en el Servicio getMoviesByCategory");
     }
   }
 
