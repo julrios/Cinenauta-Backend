@@ -14,7 +14,7 @@ class movieService {
 
   async getMovieById(id) {
     try {
-      let movie = await movieModel.findOne({_id: id});
+      const movie = await movieModel.findOne({_id: id});
       return movie;
     } catch (err) {
       console.error(err);
@@ -24,7 +24,7 @@ class movieService {
 
   async getMoviesByTitle(title) {
     try {
-      let movie = await movieModel.find({ title: title });
+      const movie = await movieModel.find({ title: title });
       return movie;
     } catch (err) {
       console.error(err);
@@ -32,10 +32,16 @@ class movieService {
     }
   }
 
-  async createMovie(movie) {
+  async createMovie(movieData) {
     try {
-      let savedMovie = await movieModel.create(movie);
-      return savedMovie;
+      const movie = await Movie.findOne({ id_movie: movieData.id_movie });
+
+      if (!movie) {
+        movie = new Movie(movieData);
+        await movie.save();
+      }
+
+      return movie;
     } catch (err) {
       console.error(err);
       throw new Error("Error in createMovie Service");
@@ -69,3 +75,5 @@ class movieService {
 }
 
 module.exports = new movieService();
+
+const Movie = require('../models/Movie');
