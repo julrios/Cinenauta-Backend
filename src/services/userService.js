@@ -1,48 +1,9 @@
 const User = require('../models/User');
 const List = require('../models/List');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 class userService {
-
-  async getUsers() {
-    try {
-      return await User.find({});
-    } catch (err) {
-      console.error(err);
-      throw new Error("Error in getUsers Service");
-    }
-  }
-
-  async getUserById(id) {
-    try {
-      return await User.findOne({_id: id});
-    } catch (err) {
-      console.error(err);
-      throw new Error("Error in getUserById Service");
-    }
-  }
-
-  async getUserByEmail(email) {
-    try {
-      return await User.findOne({email: email});
-    } catch (err) {
-      console.error(err);
-      throw new Error("Error in getUserById Service");
-    }
-  }
-
-  async getUserListsById(id) {
-    try {
-      const user = await User.findOne({_id: id}).populate('lists');
-      if (!user) {
-        throw new Error('User not found');
-      }
-      return user.lists;
-    } catch (err) {
-      console.error(err);
-      throw new Error('Error in getUserListsById Service');
-    }
-  }
 
   async createUser({ username, email, password }) {
     try {
@@ -75,15 +36,92 @@ class userService {
   async loginUser({ email, password }) {
     try {
       const user = await User.findOne({email: email});
-      if (user && await bcrypt.compare(password, user.password)) {
-        return user;
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        return null;
       }
-      return null;
+
+      const payload = {
+        user: {
+          _id: user._id,
+          username: user.username
+        }
+      };
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
+  
+      return token;
     } catch (err) {
       console.error(err);
       throw new Error("Error in login Service");
     }
   }
+
+  async updateUser(id, newData) {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(id, newData, { new: true });
+      if (!updatedUser) {
+        throw new Error('User not found');
+      }
+      return updatedUser;
+    } catch (err) {
+      console.error(err);
+      throw new Error('Error in updateUser Service');
+    }
+  }
+
+  async deleteUser(id) {
+    try {
+      const deletedUser = await User.findByIdAndDelete(id);
+      if (!deletedUser) {
+        throw new Error('User not found');
+      }
+      return deletedUser;
+    } catch (err) {
+      console.error(err);
+      throw new Error('Error in deleteUser Service');
+    }
+  }
+
+  async getUserById(id) {
+    try {
+      return await User.findOne({_id: id});
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error in getUserById Service");
+    }
+  }
+
+  async getUserListsById(id) {
+    try {
+      const user = await User.findOne({_id: id}).populate('lists');
+      if (!user) {
+        throw new Error('User not found');
+      }
+      return user.lists;
+    } catch (err) {
+      console.error(err);
+      throw new Error('Error in getUserListsById Service');
+    }
+  }
+
+  /*
+  async getUsers() {
+    try {
+      return await User.find({});
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error in getUsers Service");
+    }
+  }
+
+  async getUserByEmail(email) {
+    try {
+      return await User.findOne({email: email});
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error in getUserById Service");
+    }
+  }
+  */
   
 }
 
