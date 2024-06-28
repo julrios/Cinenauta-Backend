@@ -101,18 +101,18 @@ class listService {
         throw new Error("Lista no encontrada");
       }
 
-      let movie = await List.findOne({id_movie: id_movie});
+      let movie = await Movie.findOne({id_movie: id_movie});
       if (!movie) {
         throw new Error("Película no encontrada");
       }
 
-      if (list.movies.includes(movie)) {
-        list.movies.push(movie._id);
+      const movieIndex = list.movies.indexOf(movie._id);
+      if (movieIndex !== -1) {
+        list.movies.splice(movieIndex, 1);
         await list.save();
+      } else {
+        throw new Error("La película no está en la lista");
       }
-
-      list.movies.pull(id_movie);
-      await list.save();
 
       return list.populate('movies');
     } catch (err) {

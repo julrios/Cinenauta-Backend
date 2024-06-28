@@ -97,6 +97,7 @@ class userService {
       if (!user) {
         throw new Error('Usuario no encontrado');
       }
+      
       return user.lists;
     } catch (err) {
       console.error("Error en el Servicio getUserListsById: ", err);
@@ -106,7 +107,7 @@ class userService {
 
   async getUsers() {
     try {
-      return await User.find({});
+      return await User.find({}).populate('lists');
     } catch (err) {
       console.error("Error en el Servicio getUsers: ", err);
       throw new Error(err);
