@@ -8,20 +8,33 @@ const router = Router();
 
 // Rutas protegidas por JWT Token
 
-router.post("/", // Create List
+// Create List
+router.post("/",
   [
     jwtValidator,
     check("list_name").not().isEmpty().withMessage("List name is required"),
     check("description").not().isEmpty().withMessage("List description is required"),
-    check("user").not().isEmpty().withMessage("User ID is required"),
     checkFields,
   ],
   listController.createList
 );
 
-router.delete("/:id", jwtValidator, listController.deleteListById); // Delete List
+// Update List
+router.put("/:id",
+    [
+      jwtValidator,
+      check('list_name').not().isEmpty().withMessage('List name is required'),
+      check('description').not().isEmpty().withMessage('List description is required'),
+      checkFields,
+    ],
+    listController.updateList
+  );
 
-router.post("/addMovie", // Add Movie to List
+// Delete List
+router.delete("/:id", jwtValidator, listController.deleteList);
+
+// Add Movie to List
+router.post("/:id/addMovie",
   [
     jwtValidator,
     check("listId").not().isEmpty().withMessage("List ID is required"),
@@ -31,10 +44,11 @@ router.post("/addMovie", // Add Movie to List
   listController.addMovieToList
 );
 
-router.post("/removeMovie", // Remove Movie from List
+// Remove Movie from List
+router.post("/:id/removeMovie",
   [
     jwtValidator,
-    check("listId").not().isEmpty().withMessage("List ID is required"),
+    check("listID").not().isEmpty().withMessage("List ID is required"),
     check("movieId").not().isEmpty().withMessage("Movie ID is required"),
     checkFields,
   ],
