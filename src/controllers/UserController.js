@@ -13,13 +13,12 @@ const createUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    const token = await userService.loginUser({ email, password });
+    const { token, id, username } = await userService.loginUser({ email, password });
     if (!token) {
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
-    res.json({ token });
+    res.status(200).json({ token, id, username });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

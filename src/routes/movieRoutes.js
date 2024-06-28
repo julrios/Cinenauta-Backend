@@ -25,4 +25,10 @@ router.post("/",
 // Get Movies
 router.get("/", jwtValidator, movieController.getMovies);
 
+// Get Movie by ID
+router.get("/:id", jwtValidator, movieController.getMovieById);
+
+// Get Movies by Title
+router.get("/title/:title", jwtValidator, movieController.getMoviesByTitle);
+
 module.exports = router;
