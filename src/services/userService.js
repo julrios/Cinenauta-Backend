@@ -29,8 +29,8 @@ class userService {
         return user.populate('lists');
       }
     } catch (err) {
-      console.error(err);
-      throw new Error("Error en el Servicio createUser");
+      console.error("Error en el Servicio createUser: ", err);
+      throw new Error(err);
     }
   }
 
@@ -38,7 +38,7 @@ class userService {
     try {
       let user = await User.findOne({email: email});
       if (!user || !(await bcrypt.compare(password, user.password))) {
-        return null;
+        return { token: null, username: null };
       }
 
       let payload = {
@@ -49,10 +49,10 @@ class userService {
       };
       let token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
   
-      return token;
+      return {token: token, id: user._id, username: user.username};
     } catch (err) {
-      console.error(err);
-      throw new Error("Error en el Servicio loginUser");
+      console.error("Error en el Servicio loginUser: ", err);
+      throw new Error(err);
     }
   }
 
@@ -64,8 +64,8 @@ class userService {
       }
       return updatedUser;
     } catch (err) {
-      console.error(err);
-      throw new Error('Error en el Servicio updateUser');
+      console.error("Error en el Servicio updateUser: ", err);
+      throw new Error(err);
     }
   }
 
@@ -77,8 +77,8 @@ class userService {
       }
       return deletedUser;
     } catch (err) {
-      console.error(err);
-      throw new Error('Error en el Servicio deleteUser');
+      console.error("Error en el Servicio deleteUser: ", err);
+      throw new Error(err);
     }
   }
 
@@ -86,8 +86,8 @@ class userService {
     try {
       return await User.findOne({_id: id});
     } catch (err) {
-      console.error(err);
-      throw new Error("Error en el Servicio getUserById");
+      console.error("Error en el Servicio getUserById: ", err);
+      throw new Error(err);
     }
   }
 
@@ -99,8 +99,8 @@ class userService {
       }
       return user.lists;
     } catch (err) {
-      console.error(err);
-      throw new Error('Error en el Servicio getUserListsById');
+      console.error("Error en el Servicio getUserListsById: ", err);
+      throw new Error(err);
     }
   }
 
@@ -108,8 +108,8 @@ class userService {
     try {
       return await User.find({});
     } catch (err) {
-      console.error(err);
-      throw new Error("Error en el Servicio getUsers");
+      console.error("Error en el Servicio getUsers: ", err);
+      throw new Error(err);
     }
   }
 
@@ -117,8 +117,8 @@ class userService {
     try {
       return await User.findOne({email: email});
     } catch (err) {
-      console.error(err);
-      throw new Error("Error en el Servicio getUserById");
+      console.error("Error en el Servicio getUserById: ", err);
+      throw new Error(err);
     }
   }
   
