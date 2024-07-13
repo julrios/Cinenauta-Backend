@@ -1,4 +1,4 @@
-const movieModel = require("../models/Movie");
+const Movie = require("../models/Movie");
 
 class movieService {
 
@@ -9,18 +9,18 @@ class movieService {
       }
 
       let movie = await Movie.findOne({ id_movie: movieData.id_movie });
-      if (!movie) {
-        movie = new Movie({
-          id_movie: movieData.id_movie,
-          title: movieData.title,
-          overview: movieData.overview,
-          release_date: movieData.release_date,
-          poster_path: movieData.poster_path,
-        });
-        await movie.save();
-      } else {
+      if (movie) {
         throw new Error("La película ya existe");
       }
+
+      movie = new Movie({
+        id_movie: movieData.id_movie,
+        title: movieData.title,
+        overview: movieData.overview,
+        release_date: movieData.release_date,
+        poster_path: movieData.poster_path,
+      });
+      await movie.save();
 
       return movie;
     } catch (err) {
@@ -31,7 +31,7 @@ class movieService {
 
   async getMovies() {
     try {
-      let movies = await movieModel.find({});
+      let movies = await Movie.find({});
       return movies;
     } catch (err) {
       console.error(err);
@@ -41,7 +41,7 @@ class movieService {
 
   async getMovieById(id) {
     try {
-      let movie = await movieModel.findOne({_id: id});
+      let movie = await Movie.findOne({id_movie: id});
       return movie;
     } catch (err) {
       console.error(err);
@@ -51,7 +51,7 @@ class movieService {
 
   async getMoviesByTitle(title) {
     try {
-      let movie = await movieModel.find({ title: title });
+      let movie = await Movie.find({ title: title });
       return movie;
     } catch (err) {
       console.error(err);

@@ -69,14 +69,14 @@ class listService {
     }
   }
 
-  async addMovieToList({ listId, movieId }) {
+  async addMovieToList({ listId, id_movie }) {
     try {
       let list = await List.findOne({_id: listId});
       if (!list) {
         throw new Error("Lista no encontrada");
       }
 
-      let movie = await Movie.findOne({_id: movieId});
+      let movie = await Movie.findOne({id_movie: id_movie});
       if (!movie) {
         throw new Error("Película no encontrada");
       }
