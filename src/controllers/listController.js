@@ -34,8 +34,9 @@ const deleteList = async (req, res) => {
 
 const addMovieToList = async (req, res) => {
   try {
-    const { listId, id_movie } = req.body;
-    const list = await listService.addMovieToList({ listId, id_movie });
+    const { listId, id_movie, title, overview, release_date, poster_path } = req.body;
+    const movieData = { id_movie, title, overview, release_date, poster_path };
+    const list = await listService.addMovieToList({ listId, movieData });
     res.status(200).json(list);
   } catch (err) {
     res.status(500).json({ error: err.message });
