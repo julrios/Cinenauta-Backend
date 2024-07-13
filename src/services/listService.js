@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const List = require('../models/List');
 const Movie = require('../models/Movie');
-const movieService = require('../services/movieService');
 
 class listService {
 
@@ -70,16 +69,16 @@ class listService {
     }
   }
 
-  async addMovieToList({ listId, movieData }) {
+  async addMovieToList({ listId, movieId }) {
     try {
       let list = await List.findOne({_id: listId});
       if (!list) {
         throw new Error("Lista no encontrada");
       }
 
-      let movie = await Movie.findOne({_id: movieData.movieId});
+      let movie = await Movie.findOne({_id: movieId});
       if (!movie) {
-        movie = await movieService.createMovie({ movieData });
+        throw new Error("Película no encontrada");
       }
 
       if (!list.movies.includes(movie)) {

@@ -39,8 +39,6 @@ router.post("/:id/addMovie",
     jwtValidator,
     check("listId").not().isEmpty().withMessage("Se requiere ID de Lista"),
     check("id_movie").not().isEmpty().withMessage("Se requiere ID de Película"),
-    check("title").not().isEmpty().withMessage("Se requiere título de Película"),
-    check("poster_path").not().isEmpty().withMessage("Se requiere ubicación de poster de Película"),
     checkFields,
   ],
   listController.addMovieToList
