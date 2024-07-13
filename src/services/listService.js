@@ -69,19 +69,21 @@ class listService {
     }
   }
 
-  async addMovieToList({ listId, id_movie }) {
+  async addMovieToList({ listId, movieData }) {
     try {
       let list = await List.findOne({_id: listId});
       if (!list) {
         throw new Error("Lista no encontrada");
       }
 
-      let movie = await Movie.findOne({id_movie: id_movie});
+      let movie = await Movie.findOne({id_movie: movieData.id_movie});
       if (!movie) {
-        throw new Error("Película no encontrada");
+        movie = await movieService.createMovie({ movieData });
       }
 
-      if (!list.movies.includes(movie)) {
+      let movieAlreadyInList = list.movies.some(existingMovie => existingMovie.toString() === movie._id.toString());
+
+      if (!movieAlreadyInList) {
         list.movies.push(movie._id);
         await list.save();
       }
