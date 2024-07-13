@@ -18,6 +18,8 @@ class movieService {
           poster_path: movieData.poster_path,
         });
         await movie.save();
+      } else {
+        throw new Error("La película ya existe");
       }
 
       return movie;
