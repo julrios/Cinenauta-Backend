@@ -2,10 +2,6 @@
 
 Este es el backend del proyecto **Cinenauta**, un sitio web donde como usuario podés gestionar películas y listas de películas. Este proyecto está construido con Node.js, Express y MongoDB utilizando Mongoose.
 
-Autores:
-- Fernando Juan Muruaga
-- Julián Andrés Ríos
-
 ## Contenido
 
 - [Características](#características)
@@ -108,6 +104,7 @@ cinenauta-backend/
 ├── .env.example
 ├── .gitignore
 ├── package.json
+├── README.md
 └── server.js
 ```
 
