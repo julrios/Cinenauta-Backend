@@ -67,14 +67,14 @@ const getUserById = async (req, res) => {
 };
 
 const getUserListsById = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const lists = await userService.getUserListsById(id);
-      res.status(200).json(lists);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  };
+  try {
+    const { id } = req.params;
+    const lists = await userService.getUserListsById(id);
+    res.status(200).json(lists);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 const getUsers = async (req, res) => {
   try {

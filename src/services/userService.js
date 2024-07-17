@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const List = require('../models/List');
+const Movie = require('../models/Movie');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -93,12 +94,21 @@ class userService {
 
   async getUserListsById(id) {
     try {
-      let user = await User.findOne({_id: id}).populate('lists');
+      let user = await User.findOne({ _id: id }).populate('lists');
       if (!user) {
         throw new Error('Usuario no encontrado');
       }
-      
-      return user.lists;
+  
+      let listsWithMovies = {};
+      for (const list of user.lists) {
+        const movies = await Movie.find({ '_id': { $in: list.movies } });
+        listsWithMovies[list.list_name] = {
+          description: list.description,
+          content: movies
+        };
+      }
+  
+      return listsWithMovies;
     } catch (err) {
       console.error("Error en el Servicio getUserListsById: ", err);
       throw new Error(err);
