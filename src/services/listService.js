@@ -53,7 +53,8 @@ class listService {
       if (!list) {
         throw new Error("Lista no encontrada");
       }
-      if (list.list_name === "Vistas" || list.list_name === "Favoritas" || list.list_name === "Ver Despues") {
+      //if (list.list_name === "Vistas" || list.list_name === "Favoritas" || list.list_name === "Ver Despues") {
+      if (list.list_name === "favoritas" || list.list_name === "vistas" || list.list_name === "pendientes") {
         throw new Error("Esta lista no puede ser eliminada");
       }
       await List.findByIdAndDelete(id);
