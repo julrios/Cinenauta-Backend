@@ -16,15 +16,17 @@ class userService {
         let hashedPassword = await bcrypt.hash(password, 10);
         let user = new User({ username, email, password: hashedPassword, lists: [] });
         
-        let vistasList = new List({ list_name: 'Vistas', description: 'Tus películas y series vistas.', user: user });
-        let favoritasList = new List({ list_name: 'Favoritas', description: 'Tus películas y series favoritas.', user: user });
-        let verDespuesList = new List({ list_name: 'Ver Despues', description: 'Tus películas y series para ver después.', user: user });
+        let favoritasList = new List({ list_name: 'favoritas', description: 'Tus películas y series favoritas.', user: user });
+        let vistasList = new List({ list_name: 'vistas', description: 'Tus películas y series vistas.', user: user });
+        //let verDespuesList = new List({ list_name: 'Ver Despues', description: 'Tus películas y series para ver después.', user: user });
+        let pendientesList = new List({ list_name: 'pendientes', description: 'Tus películas y series por ver.', user: user });
 
-        await vistasList.save();
         await favoritasList.save();
-        await verDespuesList.save();
+        await vistasList.save();
+        //await verDespuesList.save();
+        await pendientesList.save();
 
-        user.lists = [vistasList._id, favoritasList._id, verDespuesList._id];
+        user.lists = [favoritasList._id, vistasList._id, /*verDespuesList._id,*/ pendientesList._id];
 
         await user.save();
         return user.populate('lists');
