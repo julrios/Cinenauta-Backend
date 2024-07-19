@@ -105,6 +105,7 @@ class userService {
       for (const list of user.lists) {
         const movies = await Movie.find({ '_id': { $in: list.movies } });
         listsWithMovies[list.list_name] = {
+          _id: list._id,
           description: list.description,
           content: movies
         };
