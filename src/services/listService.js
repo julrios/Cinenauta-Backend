@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const List = require('../models/List');
 const Movie = require('../models/Movie');
+const movieService = require('../services/movieService');
 
 class listService {
 
