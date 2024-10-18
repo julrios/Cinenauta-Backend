@@ -2,16 +2,6 @@
 
 Este es el backend del proyecto **Cinenauta**, un sitio web donde como usuario podés gestionar películas y listas de películas. Este proyecto está construido con Node.js, Express y MongoDB utilizando Mongoose.
 
-## Contenido
-
-- [Características](#características)
-- [Requisitos](#requisitos)
-- [Configuración del entorno](#configuración-del-entorno)
-- [Instalación](#instalación)
-- [Ejecución del proyecto](#ejecución-del-proyecto)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Endpoints](#endpoints)
-
 ## Características
 
 - Gestión de usuarios (registro, login, actualización y eliminación).
@@ -20,14 +10,9 @@ Este es el backend del proyecto **Cinenauta**, un sitio web donde como usuario p
 - Autenticación y autorización con JWT.
 - Validación de entradas con express-validator.
 
-## Requisitos
+## Entorno
 
-- Node.js (versión 12 o superior)
-- MongoDB (usando MongoDB Atlas para la base de datos)
-
-## Configuración del entorno
-
-Creá un archivo `.env` en la raíz del proyecto y agregá las siguientes variables de entorno:
+El proyecto tiene las siguientes variables de entorno:
 
 ```env
 PORT = your_port
@@ -38,19 +23,6 @@ DB_HOST = your_db_host
 DB_OPTIONS = your_db_options
 DB_NAME = your_db_name
 FRONTEND_URL = your_frontend_url
-```
-
-Ejemplo de `.env`:
-
-```env
-PORT = 5000
-JWT_SECRET = mysecretkey
-DB_USER = mydbuser
-DB_PASS = mydbpassword
-DB_HOST = cluster0.mongodb.net
-DB_OPTIONS = ?retryWrites=true&w=majority
-DB_NAME = cinenauta
-FRONTEND_URL = http://localhost:3000
 ```
 
 ## Instalación
